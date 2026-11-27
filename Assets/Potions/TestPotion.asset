@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestPotion
   m_EditorClassIdentifier: Assembly-CSharp::PotionData
   potionName: Test Potion
-  icon: {fileID: 0}
+  icon: {fileID: -6601691336363857274, guid: 9f237096579324136b05b47326175a2d, type: 3}
   recipe:
   - Mushroom
   - Frog
