@@ -11,6 +11,7 @@ public class PlayerInterface : MonoBehaviour
     ScreenState screen = ScreenState.Main, settingsReturn;
     GameManager game;
     IngredientDrag[] ingredients;
+    CanvasGroup gameplayCanvas;
     float volume;
     int bestScore, finalScore;
     GUIStyle title, label, button;
@@ -28,6 +29,8 @@ public class PlayerInterface : MonoBehaviour
         AudioListener.volume = volume;
         bestScore = PlayerPrefs.GetInt(BestKey, 0);
         ingredients = FindObjectsByType<IngredientDrag>();
+        Canvas canvas = FindFirstObjectByType<Canvas>();
+        if (canvas != null) gameplayCanvas = canvas.rootCanvas.gameObject.AddComponent<CanvasGroup>();
         SetScreen(startPlaying ? ScreenState.Playing : ScreenState.Main);
         startPlaying = false;
     }
@@ -57,6 +60,12 @@ public class PlayerInterface : MonoBehaviour
         screen = next;
         bool playing = next == ScreenState.Playing;
         Time.timeScale = playing ? 1f : 0f;
+        if (gameplayCanvas != null)
+        {
+            gameplayCanvas.alpha = playing ? 1f : 0f;
+            gameplayCanvas.blocksRaycasts = playing;
+            gameplayCanvas.interactable = playing;
+        }
         if (ingredients != null)
             foreach (var ingredient in ingredients) if (ingredient != null) ingredient.enabled = playing;
     }
@@ -93,6 +102,10 @@ public class PlayerInterface : MonoBehaviour
             if (GUI.Button(new Rect(Screen.width - 120, 12, 108, 36), "Duraklat")) SetScreen(ScreenState.Paused);
             return;
         }
+        Color previousColor = GUI.color;
+        GUI.color = new Color(0.10f, 0.14f, 0.23f, 1f);
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Texture2D.whiteTexture);
+        GUI.color = previousColor;
         float w = Mathf.Min(400, Screen.width - 30), h = Mathf.Min(410, Screen.height - 30);
         Rect box = new Rect((Screen.width - w) / 2, (Screen.height - h) / 2, w, h);
         GUI.Box(box, "");
