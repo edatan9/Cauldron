@@ -14,7 +14,7 @@ public class PlayerInterface : MonoBehaviour
     CanvasGroup gameplayCanvas;
     float volume;
     int bestScore, finalScore;
-    GUIStyle title, label, button;
+    GUIStyle title, label, button, hud;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void Install()
@@ -96,9 +96,25 @@ public class PlayerInterface : MonoBehaviour
             title = new GUIStyle(GUI.skin.label) { fontSize = 28, alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
             label = new GUIStyle(GUI.skin.label) { fontSize = 18, alignment = TextAnchor.MiddleCenter };
             button = new GUIStyle(GUI.skin.button) { fontSize = 18 };
+            hud = new GUIStyle(GUI.skin.label) { fontSize = 16, alignment = TextAnchor.MiddleCenter, fontStyle = FontStyle.Bold };
         }
         if (screen == ScreenState.Playing)
         {
+            if (game != null)
+            {
+                float hudWidth = Mathf.Max(120f, Screen.width - 140f);
+                GUI.Box(new Rect(8, 8, hudWidth, 42), "");
+                string timer = game.timerText != null ? game.timerText.text : "";
+                GUI.Label(new Rect(12, 8, hudWidth - 8, 42),
+                    "Seviye: " + game.Level + "     Can: " + game.Lives +
+                    "     Puan: " + game.Score + "     Sure: " + timer, hud);
+                string status = game.statusText != null ? game.statusText.text : "";
+                if (game.cauldron != null && game.cauldron.Progress > 0 && !game.IsGameOver &&
+                    (game.recipePanel == null || !game.recipePanel.activeInHierarchy))
+                    status += "   |   Eklenen: " + game.cauldron.Progress;
+                GUI.Box(new Rect(8, Screen.height - 54, Screen.width - 16, 46), "");
+                GUI.Label(new Rect(12, Screen.height - 54, Screen.width - 24, 46), status, hud);
+            }
             if (GUI.Button(new Rect(Screen.width - 120, 12, 108, 36), "Duraklat")) SetScreen(ScreenState.Paused);
             return;
         }
