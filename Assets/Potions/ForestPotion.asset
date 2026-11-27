@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4543abd83ed424d0597ce872160c9493, type: 3}
+  m_Name: ForestPotion
+  m_EditorClassIdentifier: Assembly-CSharp::PotionData
+  potionName: ForestPotion
+  icon: {fileID: -6601691336363857274, guid: 9f237096579324136b05b47326175a2d, type: 3}
+  recipe:
+  - Frog
+  - MoonDust
+  - Mushroom
+  baseBrewTime: 30
